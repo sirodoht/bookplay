@@ -1,0 +1,5 @@
+{% for message in message_list %}
+<div class="kind-{{ message.kind }}">
+    <p>{{ message.content }}</p>
+</div>
+{% endfor %}

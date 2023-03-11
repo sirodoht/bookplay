@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>This is bookplay</title>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <script src="{% static 'htmx.js' %}"></script>
+    </head>
+    <body>
+        <main>
+            <div class="responses">
+                <h1>Chat War-and-Peace</h1>
+
+                {% for response in response_list %}
+                <div class="kind-{{ response.kind }}">
+                    <p>
+                        {{ response.content }}
+                    </p>
+                </div>
+                {% endfor %}
+
+                <div id="dialogue">
+                    {# placeholder for htmx targets #}
+                </div>
+            </div>
+            <div class="talk">
+                <div id="loading">
+                    <div class="htmx-indicator">
+                        Thinking...
+                    </div>
+                </div>
+                <form
+                    class="talk-content"
+                    hx-post="/chat/"
+                    hx-target="#dialogue"
+                    hx-swap="beforeend"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-indicator="#loading"
+                >
+                    <input type="text" name="talk">
+                    <input type="submit" value="submit">
+                </form>
+            </div>
+        </main>
+    </body>
+</html>
